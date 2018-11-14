@@ -1,3 +1,4 @@
+/*
 DROP TABLE curso_disciplinas;
 DROP TABLE matricula_disciplinas;
 DROP TABLE curso_professores;
@@ -15,6 +16,7 @@ DROP SEQUENCE professores_id_seq;
 DROP SEQUENCE matriculas_id_seq;
 DROP SEQUENCE alunos_id_seq;
 DROP SEQUENCE disciplinas_id_seq;
+*/
 
 CREATE TABLE departamentos
 (
