@@ -287,7 +287,6 @@ INSERT INTO alunos(nome, RG, CPF, nascimento, endereco, sexo, email, celular, fi
 INSERT INTO alunos(nome, RG, CPF, nascimento, endereco, sexo, email, celular, filiacao, senha) VALUES ('Giuseppe Fiorentin', '1231247914', '41479347821',
         TO_DATE('1997-04-29', 'yyyy-mm-dd'), 'Sao Pedro Fagundes, 7', 'M', 'fiorentin@gmail.com', '65989714578', 'Antony Fiorentin', 'dasdasenhaaasadasda');
 
--- Insert matriculas
 INSERT INTO matriculas(aluno_id, curso_id, data_matricula, semestre) VALUES (1, 1,  TO_DATE('2015-02-23', 'yyyy-mm-dd'), 8);
 
 INSERT INTO matriculas(aluno_id, curso_id, data_matricula, semestre) VALUES (2, 5,  TO_DATE('2014-02-22', 'yyyy-mm-dd'), 9);
