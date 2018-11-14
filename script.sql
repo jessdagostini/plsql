@@ -342,15 +342,19 @@ BEGIN
 	OPEN cursordept;
 	LOOP
     	FETCH cursordept INTO vid, vnome;
-    	DBMS_OUTPUT.PUT_LINE('Departamento: ' || vnome);
-    	FOR c IN (SELECT id, nome FROM cursos WHERE departamento_id = vid) LOOP
-        	DBMS_OUTPUT.PUT_LINE('	Curso: ' || c.nome);
-        	FOR d IN (SELECT d.id, d.nome, d.carga_horaria, d.creditos FROM disciplinas d INNER JOIN curso_disciplinas cd ON cd.disciplina_id = d.id WHERE cd.curso_id = c.id) LOOP
-            	DBMS_OUTPUT.PUT_LINE('    	Disciplina: ' || d.nome || ' Carga horária: ' || d.carga_horaria || ' Créditos: ' || d.creditos);
-        	END LOOP;
-    	END LOOP;
-    	EXIT WHEN cursordept%notfound;
-	END LOOP;
+        IF cursordept%found THEN
+            DBMS_OUTPUT.PUT_LINE('Departamento: ' || vnome);
+            FOR c IN (SELECT id, nome FROM cursos WHERE departamento_id = vid) LOOP
+                DBMS_OUTPUT.PUT_LINE('	Curso: ' || c.nome);
+                FOR d IN (SELECT d.id, d.nome, d.carga_horaria, d.creditos FROM disciplinas d INNER JOIN curso_disciplinas cd ON cd.disciplina_id = d.id WHERE cd.curso_id = c.id) LOOP
+                    DBMS_OUTPUT.PUT_LINE('    	Disciplina: ' || d.nome || ' Carga horária: ' || d.carga_horaria || ' Créditos: ' || d.creditos);
+                END LOOP;
+            END LOOP;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('----------------');
+            EXIT;
+        END IF;
+    END LOOP;
 	CLOSE cursordept;
 END;
 /
@@ -365,23 +369,28 @@ BEGIN
 	OPEN cursorteac;
 	LOOP
     	FETCH cursorteac INTO vid, vnome;
-    	DBMS_OUTPUT.PUT_LINE('Professor: ' || vnome || ' ID: ' || vid);
-    	FOR d IN (SELECT d.id, d.nome, d.carga_horaria, d.creditos FROM disciplinas d INNER JOIN professor_disciplinas pd ON pd.disciplina_id = d.id WHERE pd.professor_id = vid) LOOP
-        	DBMS_OUTPUT.PUT_LINE('    	Disciplina: ' || d.nome || ' Carga horária: ' || d.carga_horaria || ' Créditos: ' || d.creditos);
-    	END LOOP;
-    	EXIT WHEN cursorteac%notfound;
+        IF cursorteac%found THEN
+            DBMS_OUTPUT.PUT_LINE('Professor: ' || vnome || ' ID: ' || vid);
+            FOR d IN (SELECT d.id, d.nome, d.carga_horaria, d.creditos FROM disciplinas d INNER JOIN professor_disciplinas pd ON pd.disciplina_id = d.id WHERE pd.professor_id = vid) LOOP
+                DBMS_OUTPUT.PUT_LINE('    	Disciplina: ' || d.nome || ' Carga horária: ' || d.carga_horaria || ' Créditos: ' || d.creditos);
+            END LOOP;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('----------------');
+            EXIT;
+        END IF;
 	END LOOP;
 	CLOSE cursorteac;
+
     BEGIN
         DBMS_OUTPUT.PUT_LINE('Removendo professor Malomar Seminotti (para delete cascade)');
         DBMS_OUTPUT.PUT_LINE('--------------------------------');
-        DELETE FROM professores WHERE nome = 'Malomar Seminotti';
-        
+        DELETE FROM professores WHERE nome = 'Malomar Seminotti';        
     EXCEPTION
         WHEN OTHERS THEN
         RAISE_APPLICATION_ERROR(-20001, 'Professor nao encontrado!');
         ROLLBACK;
     END;
+
     BEGIN
         FOR p IN (SELECT id, nome FROM professores) LOOP
         	DBMS_OUTPUT.PUT_LINE('Professor: ' || p.nome);
@@ -406,14 +415,18 @@ BEGIN
 	OPEN cursormat;
 	LOOP
     	FETCH cursormat INTO vid, valuno_id, vcurso_id, vsemestre;
-    	FOR a IN (SELECT id, nome, DECODE(sexo, 'F', 'Feminino', 'M', 'Masculino') as sexo, email FROM alunos WHERE id = valuno_id) LOOP
-        	DBMS_OUTPUT.PUT_LINE('	Matricula [' || vid || '] - Nome: ' || a.nome || ' | Sexo: ' || a.sexo || ' | Email: ' || a.email);
-        	DBMS_OUTPUT.PUT_LINE('Disciplina(s):');
-        	FOR d IN (SELECT d.id, d.nome, d.carga_horaria, d.creditos FROM disciplinas d INNER JOIN matricula_disciplinas md ON md.disciplina_id = d.id WHERE md.matricula_id = vid) LOOP
-            	DBMS_OUTPUT.PUT_LINE('    ' || d.nome || ' | Carga horária: ' || d.carga_horaria || ' | Créditos: ' || d.creditos);
-        	END LOOP;
-    	END LOOP;
-    	EXIT WHEN cursormat%notfound;
+        IF cursormat%found THEN
+            FOR a IN (SELECT id, nome, DECODE(sexo, 'F', 'Feminino', 'M', 'Masculino') as sexo, email FROM alunos WHERE id = valuno_id) LOOP
+                DBMS_OUTPUT.PUT_LINE('	Matricula [' || vid || '] - Nome: ' || a.nome || ' | Sexo: ' || a.sexo || ' | Email: ' || a.email);
+                DBMS_OUTPUT.PUT_LINE('Disciplina(s):');
+                FOR d IN (SELECT d.id, d.nome, d.carga_horaria, d.creditos FROM disciplinas d INNER JOIN matricula_disciplinas md ON md.disciplina_id = d.id WHERE md.matricula_id = vid) LOOP
+                    DBMS_OUTPUT.PUT_LINE('    ' || d.nome || ' | Carga horária: ' || d.carga_horaria || ' | Créditos: ' || d.creditos);
+                END LOOP;
+            END LOOP;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('----------------');
+            EXIT;
+        END IF;
 	END LOOP;
 	CLOSE cursormat;
 END;
