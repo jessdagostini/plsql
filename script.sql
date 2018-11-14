@@ -1,22 +1,20 @@
-/*
-DROP TABLE curso_disciplinas;
-DROP TABLE matricula_disciplinas;
-DROP TABLE curso_professores;
-DROP TABLE professor_disciplinas;
-DROP TABLE matriculas;
-DROP TABLE alunos;
-DROP TABLE professores;
-DROP TABLE disciplinas;
-DROP TABLE cursos;
-DROP TABLE departamentos;
+--DROP TABLE curso_disciplinas;
+--DROP TABLE matricula_disciplinas;
+--DROP TABLE curso_professores;
+--DROP TABLE professor_disciplinas;
+--DROP TABLE matriculas;
+--DROP TABLE alunos;
+--DROP TABLE professores;
+--DROP TABLE disciplinas;
+--DROP TABLE cursos;
+--DROP TABLE departamentos;
 
-DROP SEQUENCE cursos_id_seq;
-DROP SEQUENCE departamentos_id_seq;
-DROP SEQUENCE professores_id_seq;
-DROP SEQUENCE matriculas_id_seq;
-DROP SEQUENCE alunos_id_seq;
-DROP SEQUENCE disciplinas_id_seq;
-*/
+--DROP SEQUENCE cursos_id_seq;
+--DROP SEQUENCE departamentos_id_seq;
+--DROP SEQUENCE professores_id_seq;
+--DROP SEQUENCE matriculas_id_seq;
+--DROP SEQUENCE alunos_id_seq;
+--DROP SEQUENCE disciplinas_id_seq;
 
 CREATE TABLE departamentos
 (
