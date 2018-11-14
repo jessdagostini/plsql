@@ -222,21 +222,18 @@ BEGIN
 END;
 /
 
--- Insert departamentos 
 INSERT INTO departamentos (nome) VALUES ('Ciências Exatas e da Terra');
 INSERT INTO departamentos (nome) VALUES ('Engenharias');
 INSERT INTO departamentos (nome) VALUES ('Ciências Biológicas');
 INSERT INTO departamentos (nome) VALUES ('Ciências da Saúde');
 INSERT INTO departamentos (nome) VALUES ('Ciências Sociais');
 
--- Insert cursos
 INSERT INTO cursos(nome, departamento_id) VALUES ( 'Ciência da Computação', 1);
 INSERT INTO cursos(nome, departamento_id) VALUES ( 'Biologia Licenciatura', 3);
 INSERT INTO cursos(nome, departamento_id) VALUES ( 'Direito', 5);
 INSERT INTO cursos(nome, departamento_id) VALUES ( 'Fisioterapia', 4);
 INSERT INTO cursos(nome, departamento_id) VALUES ( 'Engenharia Elétrica', 2);
 
--- Insert professores
 INSERT INTO professores(nome, departamento_id) VALUES ( 'Malomar Seminotti', 1);
 INSERT INTO professores(nome, departamento_id) VALUES ( 'Fabio Zanin', 1);
 INSERT INTO professores(nome, departamento_id) VALUES ( 'Fulaninho de Tal', 2);
@@ -244,7 +241,6 @@ INSERT INTO professores(nome, departamento_id) VALUES ( 'Enzo Duarte', 3);
 INSERT INTO professores(nome, departamento_id) VALUES ( 'Maria da Conceição', 3);
 INSERT INTO professores(nome, departamento_id) VALUES ( 'Juliana Kaotnfd', 4);
 
--- Insert disciplinas
 INSERT INTO disciplinas(nome, carga_horaria, creditos) VALUES ( 'Algoritmos e Estrutura de Dados 1', 240, 4);
 INSERT INTO disciplinas(nome, carga_horaria, creditos) VALUES ( 'Sociologia', 240, 4);
 INSERT INTO disciplinas(nome, carga_horaria, creditos) VALUES ( 'Anatomia 1', 240, 4);
@@ -253,7 +249,6 @@ INSERT INTO disciplinas(nome, carga_horaria, creditos) VALUES ( 'Empreendedorism
 INSERT INTO disciplinas(nome, carga_horaria, creditos) VALUES ( 'Física 1', 360, 6);
 INSERT INTO disciplinas(nome, carga_horaria, creditos) VALUES ( 'Metodologia da Pesquisa', 120, 2);
 
--- Insert alunos
 INSERT INTO alunos(nome, RG, CPF, nascimento, endereco, sexo, email, celular, filiacao, senha) VALUES ( 'Jessica Dagostini', '1234567890', '09876543210', TO_DATE('1997-04-04', 'yyyy-mm-dd'), 'Rua Monteiro Lobato, 389', 'F', 'jessicadagostini@gmail.com', '54996192242', 'Elaine Dagostini', 'senhaaa');
 
 INSERT INTO alunos(nome, RG, CPF, nascimento, endereco, sexo, email, celular, filiacao, senha) VALUES ( 'Enzo de Alguma Coisa', '0203010504', '45678912309',
@@ -307,7 +302,6 @@ INSERT INTO matriculas(aluno_id, curso_id, data_matricula, semestre) VALUES (6, 
 
 INSERT INTO matriculas(aluno_id, curso_id, data_matricula, semestre) VALUES (7, 4,  TO_DATE('2014-08-08', 'yyyy-mm-dd'), 9);
 
--- Insert curso_professores
 INSERT INTO curso_professores(professor_id, curso_id) VALUES (1, 1);
 INSERT INTO curso_professores(professor_id, curso_id) VALUES (2, 1);
 INSERT INTO curso_professores(professor_id, curso_id) VALUES (3, 3);
@@ -315,7 +309,6 @@ INSERT INTO curso_professores(professor_id, curso_id) VALUES (4, 5);
 INSERT INTO curso_professores(professor_id, curso_id) VALUES (5, 4);
 INSERT INTO curso_professores(professor_id, curso_id) VALUES (6, 2);
 
--- Insert professor_disciplinas
 INSERT INTO professor_disciplinas(disciplina_id, professor_id) VALUES (1, 1);
 INSERT INTO professor_disciplinas(disciplina_id, professor_id) VALUES (2, 5);
 INSERT INTO professor_disciplinas(disciplina_id, professor_id) VALUES (3, 3);
@@ -324,7 +317,6 @@ INSERT INTO professor_disciplinas(disciplina_id, professor_id) VALUES (5, 6);
 INSERT INTO professor_disciplinas(disciplina_id, professor_id) VALUES (6, 4);
 INSERT INTO professor_disciplinas(disciplina_id, professor_id) VALUES (7, 1);
 
--- Insert curso_disciplinas
 INSERT INTO curso_disciplinas(disciplina_id, curso_id) VALUES (1, 1);
 INSERT INTO curso_disciplinas(disciplina_id, curso_id) VALUES (3, 2);
 INSERT INTO curso_disciplinas(disciplina_id, curso_id) VALUES (5, 3);
@@ -333,7 +325,6 @@ INSERT INTO curso_disciplinas(disciplina_id, curso_id) VALUES (4, 1);
 INSERT INTO curso_disciplinas(disciplina_id, curso_id) VALUES (6, 1);
 INSERT INTO curso_disciplinas(disciplina_id, curso_id) VALUES (2, 5);
 
--- Insert matricula_disciplinas
 INSERT INTO matricula_disciplinas(disciplina_id, matricula_id) VALUES (1, 2);
 INSERT INTO matricula_disciplinas(disciplina_id, matricula_id) VALUES (2, 5);
 INSERT INTO matricula_disciplinas(disciplina_id, matricula_id) VALUES (3, 3);
@@ -343,6 +334,7 @@ INSERT INTO matricula_disciplinas(disciplina_id, matricula_id) VALUES (6, 6);
 INSERT INTO matricula_disciplinas(disciplina_id, matricula_id) VALUES (7, 1);
 COMMIT;
 
+-- Exibie o departamento em que cada curso pertence e também as disciplinas, carga horária e créditos que pertencem à cada curso. 
 SET SERVEROUTPUT ON;
 DECLARE
 CURSOR cursordept IS (SELECT id, nome FROM departamentos);
@@ -404,7 +396,7 @@ BEGIN
 END;
 /
 
--- Alunos e suas matrículas
+-- Exibe alunos e suas matrículas
 SET SERVEROUTPUT ON;
 DECLARE
 CURSOR cursormat IS (SELECT id, aluno_id, curso_id, semestre FROM matriculas);
